@@ -42,7 +42,7 @@ async def upload_video(file: UploadFile = File(...)):
             token=TOKEN
         )
         
-        raw_url = f"https://huggingface.co{REPO_ID}/resolve/main/videos/{file.filename}"
+        raw_url = f"https://huggingface.co/datasets/{REPO_ID}/resolve/main/videos/{file.filename}"
         return {"url": raw_url}
     except Exception as e:
         return {"error": str(e)}
@@ -55,7 +55,7 @@ async def get_videos():
     try:
         files = api.list_repo_files(repo_id=REPO_ID, repo_type="dataset", token=TOKEN)
         video_urls = [
-            f"https://huggingface.co{REPO_ID}/resolve/main/{f}" 
+            f"https://huggingface.co/datasets/{REPO_ID}/resolve/main/{f}" 
             for f in files if f.startswith("videos/") and f.endswith(('.mp4', '.mov', '.avi'))
         ]
         return video_urls
